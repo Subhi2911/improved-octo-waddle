@@ -4,13 +4,37 @@ from tkcalendar import Calendar
 import mysql.connector
 import random
 
-mydb=mysql.connector.connect(host='localhost',
-                             user='root',
-                             password='Subhi@2911',
-                             database='Railway')
+h_host=input(enter("Enter your mysql host name: "))
+u_user=input(enter("Enter your mysql user name: "))
+p_pass=input(enter("Enter your mysql password: "))
+
+
+mydb=mysql.connector.connect(host=h_host,
+                             user=u-user,
+                             password=p_pass) #localhost root
+print("Accessed your mysql")
 
 mycursor=mydb.cursor()
 
+mycursor.execute("CREATE DATABASE IF NOT EXISTS Railway")
+mydb.database = "Railway"
+
+cursor.execute(
+  "CREATE TABLE IF NOT EXISTS Passengers ( \
+    SNo INT AUTO_INCREMENT PRIMARY KEY,\
+    Coach VARCHAR(100),\
+    Cabin VARCHAR(100),\
+    SeatNo VARCHAR(100),\
+    Name VARCHAR(100),\
+    Gender VARCHAR(100),\
+    Age CHAR(3),\
+    JourneyFrom VARCHAR(100),\
+    JourneyUpto VARCHAR(100),\
+    BoardingFrom VARCHAR(100),\
+    ReservationUpto VARCHAR(100),\
+    PNR VARCHAR(100),\
+    TicketType VARCHAR(200))")
+    
 
 root=Tk()
 root.geometry("1100x700")
@@ -70,6 +94,7 @@ ro5=random.randint(30,80)
 rs=int(ro)
 
 def cartoon():
+    rowcount=0
     num=int(numbervalue.get())
     if num>0:
         sq1="INSERT INTO passengers(Coach,Cabin,SeatNo,Name,Gender,Age,JourneyFrom,JourneyUpto,BoardingFrom,ReservationUpto,PNR,TicketType)VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
@@ -77,6 +102,7 @@ def cartoon():
               p,str(rbb.get()),classv)
         mycursor.execute(sq1,val)
         mydb.commit()
+        rowcount+=1
         
     if num>1:
         sq1="INSERT INTO passengers(Coach,Cabin,SeatNo,Name,Gender,Age,JourneyFrom,JourneyUpto,BoardingFrom,ReservationUpto,PNR,TicketType)VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
@@ -84,6 +110,7 @@ def cartoon():
               p,str(rbb.get()),classv)
         mycursor.execute(sq1,val)
         mydb.commit()
+        rowcount+=1
         
     if num>2:
         sq1="INSERT INTO passengers(Coach,Cabin,SeatNo,Name,Gender,Age,JourneyFrom,JourneyUpto,BoardingFrom,ReservationUpto,PNR,TicketType)VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
@@ -91,6 +118,7 @@ def cartoon():
               p,str(rbb.get()),classv)
         mycursor.execute(sq1,val)
         mydb.commit()
+        rowcount+=1
        
     if num>3:
         sq1="INSERT INTO passengers(Coach,Cabin,SeatNo,Name,Gender,Age,JourneyFrom,JourneyUpto,BoardingFrom,ReservationUpto,PNR,TicketType)VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
@@ -98,6 +126,7 @@ def cartoon():
               p,str(rbb.get()),dk,classv)
         mycursor.execute(sq1,val)
         mydb.commit()
+        rowcount+=1
     dk='kid'   
     n=int(number1value.get())
     if n>0:
@@ -106,6 +135,7 @@ def cartoon():
               p,str(rbb.get()),classv)
         mycursor.execute(sq1,val)
         mydb.commit()
+        rowcount+=1
        
     if n>1:
         sq1="INSERT INTO passengers(Coach,Name,Gender,Age,JourneyFrom,JourneyUpto,BoardingFrom,ReservationUpto,PNR,TicketType)VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
@@ -113,6 +143,7 @@ def cartoon():
               p,str(rbb.get()),classv)
         mycursor.execute(sq1,val)
         mydb.commit()
+        rowcount+=1
         
     if n>2:
         sq1="INSERT INTO passengers(Coach,Name,Gender,Age,JourneyFrom,JourneyUpto,BoardingFrom,ReservationUpto,PNR,TicketType)VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
@@ -120,7 +151,8 @@ def cartoon():
               p,str(rbb.get()),classv)
         mycursor.execute(sq1,val)
         mydb.commit()
-    print(mycursor.rowcount,"record inserted")
+        rowcount+=1
+    print(rowcount,"record inserted")
 
 def coac():
     global coache
@@ -718,5 +750,8 @@ number1entry.grid(row=9,column=1)
 
 
 Button(text="Show more",fg="yellow",bg="black",font="Helvetica 12 bold",command=pogo,width=25).grid(row=12,column=1,columnspan=6)
+
+mydb.close()
+mycursor.close()
 
 root.mainloop()
